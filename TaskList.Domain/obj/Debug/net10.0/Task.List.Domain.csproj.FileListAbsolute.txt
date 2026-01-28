@@ -1,0 +1,4 @@
+C:\Users\enzo.zardo\source\repos\Task.List\Task.List.Domain\obj\Debug\net10.0\Task.List.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\enzo.zardo\source\repos\Task.List\Task.List.Domain\obj\Debug\net10.0\Task.List.Domain.AssemblyInfoInputs.cache
+C:\Users\enzo.zardo\source\repos\Task.List\Task.List.Domain\obj\Debug\net10.0\Task.List.Domain.AssemblyInfo.cs
+C:\Users\enzo.zardo\source\repos\Task.List\Task.List.Domain\obj\Debug\net10.0\Task.List.Domain.csproj.CoreCompileInputs.cache
