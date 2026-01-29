@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "cTU0G9h8PGw=",
+  "dgSpecHash": "gTOwS2iLUrM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\enzo.zardo\\source\\repos\\Task.List\\TaskList.Application\\TaskList.Application.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/enzozardo/repo/Task.List/TaskList.Application/TaskList.Application.csproj",
+  "expectedPackageFiles": [
+    "/home/enzozardo/.nuget/packages/microsoft.extensions.dependencyinjection/10.0.2/microsoft.extensions.dependencyinjection.10.0.2.nupkg.sha512",
+    "/home/enzozardo/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.2/microsoft.extensions.dependencyinjection.abstractions.10.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

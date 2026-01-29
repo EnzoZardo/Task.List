@@ -12,6 +12,7 @@ public class Result : ResultBase
     public static Result Ok() => new() { IsSuccess = true };
     public static Result Fail(Error error) => new() { IsSuccess = false, Error = error };
     public static Result Fail(string message) => new() { IsSuccess = false, Error = new Error { Message = message } };
+
     public static implicit operator Result(Error error) => Fail(error);
 }
 

@@ -10,4 +10,5 @@ public interface ITaskRepository
     public Task<Result> DeleteTaskByIdAsync(int id);
     public Task<Result> UpdateTaskByIdAsync(int id, UserTask value);
     public Task<Result> ConcludeTaskByIdAsync(int id);
+    public Task<Result<int>> AddAsync(UserTask value);
 }
