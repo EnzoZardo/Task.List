@@ -1,7 +1,11 @@
-﻿namespace TaskList.Domain.Entities.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TaskList.Domain.Entities.Tasks;
 
 public class UserTask
 {
+    [Key]
     public int Id { get; set; }
     public required string Title { get; set; }
     public required string Description { get; set; }

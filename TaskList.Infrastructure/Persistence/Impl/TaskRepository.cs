@@ -1,57 +1,122 @@
+using System.Reflection.Metadata.Ecma335;
+using Microsoft.EntityFrameworkCore;
 using TaskList.Domain.Entities.Tasks;
 using TaskList.Domain.Persistence.Interfaces;
 using TaskList.Domain.Tools.ResultPattern;
+using TaskList.Infrastructure.Context;
 
 namespace TaskList.Infrastructure.Persistence.Impl;
 
-public class TaskRepository : ITaskRepository
+public class TaskRepository(TaskContext context): ITaskRepository
 {
-    private List<UserTask> UserTasks = [];
-
     public async Task<Result<int>> AddAsync(UserTask value)
     {
-        int id = UserTasks.Count + 1;
-        value.Id = id;
-        UserTasks.Add(value);
-        return id;
+        try
+        {
+            await context.Tasks.AddAsync(value);
+            await context.SaveChangesAsync();
+
+            return Result<int>.Ok(value.Id);
+        }
+        catch (Exception ex)
+        {
+            return Error.InternalServer($"Não foi possível criar o registro. Detalhes: {ex.Message}");
+        }
     }
 
     public async Task<Result> ConcludeTaskByIdAsync(int id)
     { 
-        var task = UserTasks.First(x => x.Id == id);
-
-        if (task is null)
+        try
         {
-            return Result.Fail($"Não foi encontrada task com o Id {id}");
-        }
+            var entity = await context.Tasks.FindAsync(id);
 
-        task.Done = true;
-        return Result.Ok();
+            if (entity is null)
+            {
+                return Error.NotFound($"Não foi possível encontrar o registro com ID {id}");
+            }
+
+            entity.Done = true;
+            entity.ConslusionDateTime = DateTime.Now;
+
+            await context.SaveChangesAsync();
+            return Result.Ok();
+        } 
+        catch (Exception ex)
+        {
+            return Error.InternalServer($"Não foi possível concluir a tarefa de ID {id}. Detalhes: {ex.Message}");
+        }
     }
 
     public async Task<Result> DeleteTaskByIdAsync(int id)
     {
-        UserTasks = [.. UserTasks.Where(x => x.Id != id)];
-        return Result.Ok();
+        try
+        {
+            var entity = await context.Tasks.FindAsync(id);
+
+            if (entity is null)
+            {
+                return Error.NotFound($"Não foi possível encontrar o registro com ID {id}");
+            }
+            
+            context.Tasks.Remove(entity);
+            await context.SaveChangesAsync();
+            return Result.Ok();
+        }
+        catch (Exception ex)
+        {
+            return Error.InternalServer($"Não foi possível remover a tarefa de ID {id}. Detalhes: {ex.Message}");
+        }
     }
 
     public async Task<Result<IEnumerable<UserTask>>> FindAsync()
-        => Result<IEnumerable<UserTask>>.Ok(UserTasks);
+    {
+        try
+        {
+            return Result<IEnumerable<UserTask>>.Ok(await context.Tasks.ToListAsync());
+        }
+        catch (Exception ex)
+        {
+            return Error.InternalServer($"Não foi possível buscar as tarefas. Detalhes: {ex.Message}");
+        }
+    }
 
     public async Task<Result<UserTask>> FindByIdAsync(int id)
     {
-        var task = UserTasks.First(x => x.Id == id);
-        if (task is null)
+        try
         {
-            return Result<UserTask>.Fail($"Não foi encontrada task com o Id {id}");
+            var entity = await context.Tasks.FindAsync(id);
+
+            if (entity is null)
+            {
+                return Error.NotFound($"Não foi possível encontrar o registro com ID {id}");
+            }
+
+            return entity;
         }
-        return Result<UserTask>.Ok(task);
+        catch (Exception ex)
+        {
+            return Error.InternalServer($"Não foi possível buscar a tarefa de ID {id}. Detalhes: {ex.Message}");
+        }
     }
 
     public async Task<Result> UpdateTaskByIdAsync(int id, UserTask value)
     {
-        UserTasks = [.. UserTasks.Where(x => x.Id != id)];
-        UserTasks.Add(value);
-        return Result.Ok();
+        try
+        {
+            var entity = await context.Tasks.FindAsync(id);
+
+            if (entity is null)
+            {
+                return Error.NotFound($"Não foi possível encontrar o registro com ID {id}");
+            }
+            
+            entity = value;
+            await context.SaveChangesAsync();
+            return Result.Ok();
+        }
+        catch (Exception ex)
+        {
+            return Error.InternalServer($"Não foi possível remover a tarefa de id {id}. Detalhes: {ex.Message}");
+        }
     }
 }
