@@ -5,6 +5,8 @@ Executar migrations:
 
 cd ~/repo/Task.List
 
+```sh
+
 dotnet ef migrations add <nome-da-migration> \
   --project TaskList.Infrastructure \
   --startup-project TaskList
@@ -12,3 +14,5 @@ dotnet ef migrations add <nome-da-migration> \
 dotnet ef database update \
   --project TaskList.Infrastructure \
   --startup-project TaskList
+
+```
