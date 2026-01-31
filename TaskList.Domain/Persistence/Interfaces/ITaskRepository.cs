@@ -5,10 +5,10 @@ namespace TaskList.Domain.Persistence.Interfaces;
 
 public interface ITaskRepository
 {
-    public Task<Result<IEnumerable<UserTask>>> FindAsync();
+    public Task<Result<IEnumerable<UserTask>>> FindManyAsync(TaskFilters filters);
     public Task<Result<UserTask>> FindByIdAsync(int id);
-    public Task<Result> DeleteTaskByIdAsync(int id);
     public Task<Result> UpdateTaskByIdAsync(int id, UserTask value);
-    public Task<Result> ConcludeTaskByIdAsync(int id);
+    public Task<Result> DeleteTasksByIdAsync(IEnumerable<int> ids);
+    public Task<Result> ConcludeTasksByIdAsync(IEnumerable<int> ids);
     public Task<Result<int>> AddAsync(UserTask value);
 }

@@ -1,9 +1,9 @@
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore;
 using TaskList.Domain.Entities.Tasks;
 using TaskList.Domain.Persistence.Interfaces;
 using TaskList.Domain.Tools.ResultPattern;
 using TaskList.Infrastructure.Context;
+using TaskList.Infrastructure.Extensions;
 
 namespace TaskList.Infrastructure.Persistence.Impl;
 
@@ -24,55 +24,66 @@ public class TaskRepository(TaskContext context): ITaskRepository
         }
     }
 
-    public async Task<Result> ConcludeTaskByIdAsync(int id)
+    public async Task<Result> ConcludeTasksByIdAsync(IEnumerable<int> ids)
     { 
         try
         {
-            var entity = await context.Tasks.FindAsync(id);
+            var affected = await context.Tasks
+                .Where(task => ids.Contains(task.Id))
+                .ExecuteUpdateAsync(task => {
+                    task.SetProperty(x => x.ConslusionDateTime, DateTime.Now);
+                    task.SetProperty(x => x.Done, true);
+                });
 
-            if (entity is null)
+            if (affected != ids.Count())
             {
-                return Error.NotFound($"Não foi possível encontrar o registro com ID {id}");
+                return Error.NotFound($"Somente {affected} registros de {ids.Count()} foram marcados como 'Concluído'.");
             }
 
-            entity.Done = true;
-            entity.ConslusionDateTime = DateTime.Now;
-
-            await context.SaveChangesAsync();
             return Result.Ok();
         } 
         catch (Exception ex)
         {
-            return Error.InternalServer($"Não foi possível concluir a tarefa de ID {id}. Detalhes: {ex.Message}");
+            return Error.InternalServer($"Não foi possível concluir a tarefa de ID {ids}. Detalhes: {ex.Message}");
         }
     }
 
-    public async Task<Result> DeleteTaskByIdAsync(int id)
+    public async Task<Result> DeleteTasksByIdAsync(IEnumerable<int> ids)
     {
         try
         {
-            var entity = await context.Tasks.FindAsync(id);
+            var affected = await context.Tasks
+                .Where(task => ids.Contains(task.Id))
+                .ExecuteDeleteAsync();
 
-            if (entity is null)
+            if (affected != ids.Count())
             {
-                return Error.NotFound($"Não foi possível encontrar o registro com ID {id}");
+                return Error.NotFound($"Somente {affected} registros de {ids.Count()} foram deletados.");
             }
             
-            context.Tasks.Remove(entity);
-            await context.SaveChangesAsync();
             return Result.Ok();
         }
         catch (Exception ex)
         {
-            return Error.InternalServer($"Não foi possível remover a tarefa de ID {id}. Detalhes: {ex.Message}");
+            return Error.InternalServer($"Não foi possível remover a tarefa de ID {ids}. Detalhes: {ex.Message}");
         }
     }
 
-    public async Task<Result<IEnumerable<UserTask>>> FindAsync()
+    public async Task<Result<IEnumerable<UserTask>>> FindManyAsync(TaskFilters filters)
     {
         try
         {
-            return Result<IEnumerable<UserTask>>.Ok(await context.Tasks.ToListAsync());
+            var found = await context.Tasks
+                .AsQueryable()
+                .ApplyFilters(filters)
+                .ToListAsync();
+
+            if (found is null)
+            {
+                return Error.NotFound($"Não foi possível encontrar registros com os filtros {filters}.");
+            }
+
+            return Result<IEnumerable<UserTask>>.Ok(found);
         }
         catch (Exception ex)
         {

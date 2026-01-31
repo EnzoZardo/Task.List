@@ -6,4 +6,12 @@ namespace TaskList.Infrastructure.Context;
 public class TaskContext(DbContextOptions<TaskContext> options) : DbContext(options)
 {
     public DbSet<UserTask> Tasks { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<UserTask>()
+            .Property(e => e.CreatedDateTime)
+            .HasDefaultValueSql("GETDATE()");
+    }
 }
+

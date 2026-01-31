@@ -14,20 +14,20 @@ namespace TaskList.Presentation.Controllers
             => await services.Find(id).ToValueActionResult();
 
         [HttpGet]
-        public async Task<IActionResult> FindAll()
-            => await services.FindAll().ToValueActionResult();
+        public async Task<IActionResult> FindMany([FromQuery] TaskFilters filters)
+            => await services.FindMany(filters).ToValueActionResult();
 
         [HttpPost]
         public async Task<IActionResult> Add(UserTask task) 
             => await services.Add(task).ToValueActionResult();
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id) 
-            => await services.Delete(id).ToActionResult();
+        public async Task<IActionResult> Delete([FromRoute] int id) 
+            => await services.Delete([id]).ToActionResult();
 
         [HttpPatch("Conclude/{id}")]
-        public async Task<IActionResult> Conclude(int id) 
-            => await services.Conclude(id).ToActionResult();
+        public async Task<IActionResult> Conclude([FromRoute] int id) 
+            => await services.Conclude([id]).ToActionResult();
             
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UserTask task) 
