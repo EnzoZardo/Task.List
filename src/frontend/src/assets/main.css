@@ -1,0 +1,32 @@
+.centered-container {
+  display: flex;
+  justify-content: center;
+  max-width: 50rem;
+  margin: auto;
+}
+
+.container-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 100%;
+  max-height: 100vh;
+}
+
+.centered-container.size-90 {
+  width: 90%;
+}
+
+.centered-container.size-100 {
+  width: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: rgb(var(--v-theme-primary)) !important;
+}
+
+.application-btn {
+  width: 48%;
+}
