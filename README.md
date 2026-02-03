@@ -92,6 +92,7 @@ Exemplo de string de conexão (appsettings.json):
 
 ### Rodar a API
 ```bash
+cd TaskList
 dotnet run
 ```
 A API deverá ficar disponível como em https://localhost:5131
