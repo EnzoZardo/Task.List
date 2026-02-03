@@ -2,7 +2,7 @@
 
 Aplicação para gerenciamento de tarefas, composta por:
 
-- **Frontend**: Vue 3 + Vuetify  
+- **Frontend**: Vue 3 + Vuetify + TypeScript
 - **Backend**: ASPNET (.NET 10) + EF Core + SQLite  
 
 A aplicação segue uma estrutura monorepo, com frontend e backend no mesmo repositório.
@@ -52,16 +52,17 @@ Verifique com:
 node -v
 npm -v
 Backend
+```
 
-.NET SDK 10
+### .NET SDK 10
 
 Verifique com:
-
+```bash
 dotnet --version
 ```
 
 ## Como rodar o projeto
-Ter o repositório o repositório
+Ter o repositório
 
 ```bash
 cd Task.List
@@ -93,7 +94,7 @@ Exemplo de string de conexão (appsettings.json):
 ```bash
 dotnet run
 ```
-A API ficará disponível em algo como em https://localhost:5131
+A API deverá ficar disponível como em https://localhost:5131
 
 ### Frontend (Vue + Vuetify)
 Em outro terminal, acessar o frontend
@@ -105,7 +106,7 @@ Instalar dependências
 ```bash
 npm install
 ```
-ou
+e
 
 Rodar o frontend
 ```bash
