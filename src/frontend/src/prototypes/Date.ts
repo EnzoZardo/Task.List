@@ -6,6 +6,8 @@ declare global {
     toInputDate(): string
     getLocale(): string
     getRealMonth(): number
+    getDateWithUTC(): Date
+    toVDatePicker(): string
   }
 }
 
@@ -35,4 +37,16 @@ Date.prototype.getLocale = function (): string {
 
 Date.prototype.getRealMonth = function (): number {
   return this.getMonth() + 1
+}
+
+Date.prototype.getDateWithUTC = function (): Date {
+  return new Date(
+    this.getUTCFullYear(),
+    this.getUTCMonth(),
+    this.getUTCDay(),
+  )
+}
+
+Date.prototype.toVDatePicker = function (): string {
+  return this.toISOString().substring(0, 10)
 }

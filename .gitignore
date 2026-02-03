@@ -484,4 +484,3 @@ $RECYCLE.BIN/
 # Build artifacts
 **/bin/
 **/obj/
-**/bin\Debug\.net10.0

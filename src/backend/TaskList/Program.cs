@@ -11,6 +11,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors(policy => policy
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowAnyOrigin());
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -21,6 +26,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseRouting();
 
 app.MapControllers();
 

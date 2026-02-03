@@ -7,7 +7,7 @@ using TaskList.Infrastructure.Extensions;
 
 namespace TaskList.Infrastructure.Persistence.Impl;
 
-public class TaskRepository(TaskContext context): ITaskRepository
+public class TaskRepository(TaskContext context) : ITaskRepository
 {
     public async Task<Result<int>> AddAsync(UserTask value)
     {
@@ -25,12 +25,13 @@ public class TaskRepository(TaskContext context): ITaskRepository
     }
 
     public async Task<Result> ConcludeTasksByIdAsync(IEnumerable<int> ids)
-    { 
+    {
         try
         {
             var affected = await context.Tasks
                 .Where(task => ids.Contains(task.Id))
-                .ExecuteUpdateAsync(task => {
+                .ExecuteUpdateAsync(task =>
+                {
                     task.SetProperty(x => x.ConslusionDateTime, DateTime.Now);
                     task.SetProperty(x => x.Done, true);
                 });
@@ -41,7 +42,7 @@ public class TaskRepository(TaskContext context): ITaskRepository
             }
 
             return Result.Ok();
-        } 
+        }
         catch (Exception ex)
         {
             return Error.InternalServer($"Não foi possível concluir a tarefa de ID {ids}. Detalhes: {ex.Message}");
@@ -60,7 +61,8 @@ public class TaskRepository(TaskContext context): ITaskRepository
             {
                 return Error.NotFound($"Somente {affected} registros de {ids.Count()} foram deletados.");
             }
-            
+
+            await context.SaveChangesAsync();
             return Result.Ok();
         }
         catch (Exception ex)
@@ -120,7 +122,7 @@ public class TaskRepository(TaskContext context): ITaskRepository
             {
                 return Error.NotFound($"Não foi possível encontrar o registro com ID {id}");
             }
-            
+
             entity = value;
             await context.SaveChangesAsync();
             return Result.Ok();

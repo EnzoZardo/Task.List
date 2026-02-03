@@ -11,7 +11,5 @@
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import router from '@/router'
-
+import { RouterView } from "vue-router";
 </script>
