@@ -95,7 +95,8 @@ Exemplo de string de conexão (appsettings.json):
 cd TaskList
 dotnet run
 ```
-A API deverá ficar disponível como em https://localhost:5131
+A API deverá ficar disponível em:
+https://localhost:5131
 
 ### Frontend (Vue + Vuetify)
 Em outro terminal, acessar o frontend
@@ -115,5 +116,4 @@ npm run dev
 ```
 
 O frontend ficará disponível em:
-
 http://localhost:5173
