@@ -1,4 +1,4 @@
-# Task List 📝
+# Task List 
 
 Aplicação para gerenciamento de tarefas, composta por:
 
@@ -9,19 +9,20 @@ A aplicação segue uma estrutura monorepo, com frontend e backend no mesmo repo
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
+```bash
 Task.List
-├── src
-│ ├── frontend
-│ │ └── (Vue 3 + Vuetify + Typescript)
-│ └── backend
-│ └── (.NET 10 + EF Core + SQLite)
-
+└── src
+  ├── frontend
+  │ └── (Vue 3 + Vuetify + Typescript)
+  └── backend
+    └── (.NET 10 + EF Core + SQLite)
+```
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 ### Frontend
 - Node.js
@@ -38,7 +39,7 @@ Task.List
 
 ---
 
-## ✅ Pré-requisitos
+## Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado:
 
