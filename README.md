@@ -65,7 +65,7 @@ dotnet --version
 Ter o repositório
 
 ```bash
-cd Task.List
+Task.List
 ```
 
 ### Backend (API)
