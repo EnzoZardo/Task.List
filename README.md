@@ -71,7 +71,7 @@ cd Task.List
 ### Backend (API)
  Acessar o backend
 ```bash
-cd src/backend
+cd Task.List/src/backend
 ```
 Restaurar dependências
 ```bash
@@ -101,7 +101,7 @@ https://localhost:5131
 ### Frontend (Vue + Vuetify)
 Em outro terminal, acessar o frontend
 ```bash
-cd src/frontend
+cd Task.List/src/frontend
 ```
 
 Instalar dependências

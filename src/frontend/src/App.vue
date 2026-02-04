@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="bg-primary">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" />

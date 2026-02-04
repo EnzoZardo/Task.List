@@ -2,7 +2,7 @@
   <v-layout class="container-layout centered-container">
     <v-card class="w-100" color="transparent" flat>
       <v-card-title
-        class="d-flex flex-row align-start flex-wrap justify-space-between py-5 px-6"
+        class="d-flex flex-row align-start flex-wrap justify-space-between py-5 px-6 text-white"
       >
         <div>
           <p class="text-title-1 font-weight-bold">{{ title }}</p>
@@ -22,7 +22,7 @@
     </v-card>
 
     <v-container
-      class="timeline-wrapper bg-primary py-0 rounded-t-xl h-100 px-0"
+      class="timeline-wrapper bg-background pb-5 rounded-t-xl h-100 px-0"
     >
       <v-scale-transition>
         <div class="d-flex w-100 pt-3 px-5 ga-4" v-if="!xs">
@@ -88,11 +88,11 @@
           />
         </div>
       </v-scale-transition>
-      <v-timeline side="end" align="center" class="timeline-scroll w-100">
+      <v-timeline side="end" align="center" class="timeline-scroll w-100 pb-5">
         <v-timeline-item
           v-if="tasks.length == 0"
           size="small"
-          dot-color="secondary"
+          dot-color="primary"
         >
           Sem tarefas para esta data.
         </v-timeline-item>
@@ -128,10 +128,10 @@
   </v-layout>
   <v-bottom-sheet
     class="centered-container w-100"
+    @update:model-value="closeTaskSheet"
     :model-value="isCreating || isEditing"
-    persistent
   >
-    <v-card class="rounded-t-xl" color="tertiary">
+    <v-card class="rounded-t-xl" color="secondary">
       <v-card-title
         class="text-h5 font-weight-bold text-white d-flex align-center px-7"
       >
@@ -148,7 +148,6 @@
           base-color="white"
           hide-details
           v-model="taskSheet.releaseDateTime"
-          @update:model-value="console.log"
         />
         <v-text-field
           label="Titulo"
@@ -175,7 +174,7 @@
       </div>
       <v-card-actions tag="div" class="d-flex justify-center">
         <v-btn
-          color="primary"
+          color="white"
           rounded="xl"
           variant="outlined"
           class="application-btn"
@@ -237,6 +236,7 @@ const { xs } = useDisplay();
 const tasksRequest = reactive(Requester.Create<UserTask[]>(_axios));
 
 let locale = new Date().getDateWithUTC();
+
 if (route.query.date) {
   locale = new Date(route.query.date as string);
 }
@@ -250,7 +250,7 @@ const selectedTasks = reactive<number[]>([]);
 const taskSheet = reactive<CreateUserTask>({
   title: "",
   description: "",
-  releaseDateTime: new Date().toVDatePicker(),
+  releaseDateTime: selectedDate.value.toVDatePicker(),
 });
 const title = computed(() => selectedDate.value.getLocale().capitalizeAll());
 
@@ -280,7 +280,7 @@ const openEdition = (id: number) => {
 const clearTaskSheet = () => {
   taskSheet.title = "";
   taskSheet.description = "";
-  taskSheet.releaseDateTime = new Date().toVDatePicker();
+  taskSheet.releaseDateTime = selectedDate.value.toVDatePicker();
 };
 
 const setTaskSheet = (item: CreateUserTask) => {
@@ -298,7 +298,7 @@ const selectDate = () => {
 };
 
 const openCreation = () => {
-  isCreating.value = true;
+  isCreating.value = !isCreating.value;
   clearTaskSheet();
 };
 
